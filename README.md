@@ -1,4 +1,4 @@
-# Objektinio užduotis 1
+# Objektinio užduotis 2
   Programa skaičiuojanti galutinį studento rezultatą pagal pateiktus namų darbų ir egzamino rezultatus.
 
 ## Funkcionalumas
@@ -21,6 +21,15 @@
 - **CPU**: AMD Ryzen 5 5600H 3.30 GHz
 - **RAM**: DDR4 16GB
 - **HDD**: SSD 512GB
+
+## Failų generavimo greičio testai
+| Failas | 1 testas | 2 testas | 3 testas | Vidurkis |
+| :--- | ---- | ---- | ---- | ---- |
+| stud1000 | 11 | 5 | 10 | 9 |
+| stud10000 | 56 | 55 | 51 | 54 |
+| stud100000 | 509 | 505 | 493 | 502 |
+| stud1000000 | 5130 | 5160 | 5463 | 5251 |
+| stud10000000 | 63968 | 55163 | 54541 | 57891 |
 
 ## Greičio testai (5 testų vidurkis) ms
 

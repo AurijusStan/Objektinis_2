@@ -58,13 +58,15 @@ void rusiuotilist(sk &x, sk &t, list<duom> &mok) {
     }
 }
 
-void calc(duom &m){
+template <typename talpa>
+void calc(talpa &m){
     int a=accumulate(m.ndrez.begin(), m.ndrez.end(), 0);
     double sum=a;
     double egz=0;
     double med=0;
 
-    // m.ndrez.sort();
+    sort(m.ndrez.begin(), m.ndrez.end());
+    
     sort(m.ndrez.begin(), m.ndrez.end());
 
     if(m.ndrez.size()!=0){
@@ -96,7 +98,7 @@ bool pagalMed(const duom &x, const double d){
 }
 
 template <typename talpa, typename sk> 
-void skirstymas(talpa &x, talpa &y, sk t){
+void strategija3(talpa &x, talpa &y, sk t){
     auto it=x.begin();
     auto end=x.end();
     auto tarp=end;
@@ -108,9 +110,59 @@ void skirstymas(talpa &x, talpa &y, sk t){
         tarp=lower_bound(x.begin(), x.end(), 5.0, pagalMed);
     }
 
-    copy(tarp, x.end(), back_inserter(y));
+    talpa temp (tarp, x.end());
+    y=temp;
 
     x.erase(tarp, x.end());
+}
+
+template <typename talpa, typename sk>
+void strategija2(talpa &x, talpa &y, sk t){
+    auto it=x.begin();
+    auto end=x.end();
+    auto tarp=end;
+
+    for(; it!=end; ++it){
+        if(t==3&&it->galvid>=5){
+            tarp=it;
+            break;
+        }
+        if(t==4 && it->galmed>=5){
+            tarp=it;
+            break;
+        }
+    }
+
+    if(tarp!=end){
+        y.insert(y.end(), tarp, end);
+        x.erase(tarp, x.end());
+    }
+}
+
+template <typename talpa, typename sk>
+void strategija1(talpa &x, talpa &y, sk t, talpa &z){
+    auto it=x.begin();
+    auto begin=x.begin();
+    auto end=x.end();
+    auto tarp=end;
+
+    for(; it!=end; ++it){
+        if(t==3&&it->galvid>=5){
+            tarp=it;
+            break;
+        }
+        if(t==4&&it->galmed>=5){
+            tarp=it;
+            break;
+        }
+    }
+
+    if(tarp!=end){
+        y.insert(y.end(), tarp, end);
+        x.erase(tarp, x.end());
+        z.insert(z.end(), begin, tarp);
+        x.erase(x.begin(), x.end());
+    }
 }
 
 template <typename sk, typename talpa>
@@ -158,12 +210,40 @@ void skaitymas(sk &moksk, sk &ndsk, talpa &mok){
     }
 }
 
-template <typename talpa, typename sk>
+template <typename talpa, typename sk=int>
 double isfailo(sk &moksk, talpa &mok){
     int ndsk=0;
+    int maxmoksk=0;
+    string failas;
+
+    while(true){
+        cout<<"Iveskite faila is kurio imti duomenis"<<endl;
+        cin>>failas;
+
+        ifstream file(failas+".txt");
+
+        if(!file.is_open()){
+            try{
+                throw runtime_error("Klaidingai ivesti duomenys\n"); 
+            }
+            catch(const runtime_error &e){
+                cout<<e.what();
+            }
+        }
+        else{
+            string line;
+
+            while(getline(file, line)){
+                maxmoksk++;
+            }
+
+            file.close();
+            break;
+        };
+    }
 
     cout<<"Kiek asmenu nuskaityti nuo duoto failo?"<<endl;
-    while(!(cin>>moksk)||moksk<0){
+    while(!(cin>>moksk)||moksk<0||moksk<=maxmoksk-1){
         try{
             throw runtime_error("Klaidingai ivesti duomenys\n");
         }
@@ -217,28 +297,7 @@ double isfailo(sk &moksk, talpa &mok){
         }
     }
 
-    string failas;
-
-    while(true){
-        cout<<"Iveskite faila is kurio imti duomenis"<<endl;
-        cin>>failas;
-
-        ifstream file(failas+".txt");
-
-        if(!file.is_open()){
-            try{
-                throw runtime_error("Klaidingai ivesti duomenys\n"); 
-            }
-            catch(const runtime_error &e){
-                cout<<e.what();
-            }
-        }
-        else{
-            file.close();
-            freopen((failas+".txt").c_str(), "r", stdin);
-            break;
-        };
-    }
+    freopen((failas+".txt").c_str(), "r", stdin);
 
     auto start = high_resolution_clock::now();
 
@@ -274,9 +333,7 @@ double isfailo(sk &moksk, talpa &mok){
         duration = duration_cast<milliseconds>(stop - start);
 
         cout<<"Skirstymo laikas: "<<duration.count()<<endl;
-    }
 
-    if(uzd4==true){
         start = high_resolution_clock::now();
 
         ifstream file("pazenge.txt");
@@ -285,23 +342,16 @@ double isfailo(sk &moksk, talpa &mok){
             remove("pazenge.txt");
         }
         file.close();
+
         freopen("pazenge.txt", "r", stdin);
         freopen("pazenge.txt", "w", stdout);
 
-        cout<<setw(25)<<left<<"Vardas"<<setw(25)<<left<<"Pavarde";
-    
-        for(int i=1; i<=ndsk; i++){
-            cout<<"ND"<<setw(6)<<left<<i;
-        }
-
-        cout<<"Egz."<<endl;
+        cout<<setw(25)<<left<<"Vardas"<<setw(25)<<left<<"Pavarde"<<setw(18)<<left<<"Galutinis (Vid.)"<<setw(18)<<left<<"Galutinis (Med.)";
+        cout<<endl;
 
         for (const auto& elem : pazenge) {
-            cout<<setw(25)<<left<<elem.vard<<setw(25)<<left<<elem.pav;
-            for (int j : elem.ndrez) {
-                cout<<std::setw(8)<<j;
-            }
-            cout<<elem.egzrez<<endl;
+            cout<<setw(25)<<left<<elem.vard<<setw(25)<<left<<elem.pav<<setw(18)<<left<<elem.galvid<<setw(18)<<left<<elem.galmed;
+            cout<<endl;
         }
 
         stop = high_resolution_clock::now();
@@ -320,23 +370,16 @@ double isfailo(sk &moksk, talpa &mok){
             remove("zluge.txt");
         }
         filez.close();
+
         freopen("zluge.txt", "r", stdin);
         freopen("zluge.txt", "w", stdout);
 
-        cout<<setw(25)<<left<<"Vardas"<<setw(25)<<left<<"Pavarde";
-    
-        for(int i=1; i<=ndsk; i++){
-            cout<<"ND"<<setw(6)<<left<<i;
-        }
-
-        cout<<"Egz."<<endl;
+        cout<<setw(25)<<left<<"Vardas"<<setw(25)<<left<<"Pavarde"<<setw(18)<<left<<"Galutinis (Vid.)"<<setw(18)<<left<<"Galutinis (Med.)";
+        cout<<endl;
 
         for (const auto& elem : mok) {
-            cout<<setw(25)<<left<<elem.vard<<setw(25)<<left<<elem.pav;
-            for (int j : elem.ndrez) {
-                cout<<std::setw(8)<<j;
-            }
-            cout<<elem.egzrez<<endl;
+            cout<<setw(25)<<left<<elem.vard<<setw(25)<<left<<elem.pav<<setw(18)<<left<<elem.galvid<<setw(18)<<left<<elem.galmed;
+            cout<<endl;
         }
 
         stop = high_resolution_clock::now();
@@ -349,7 +392,6 @@ double isfailo(sk &moksk, talpa &mok){
 
         exit(0);
     }
-
     return(duration.count());
 }
 
@@ -425,7 +467,10 @@ void kurtifaila(){
             cout<<setw(8)<<rand()%10+1;
         }
 
-        cout<<rand()%10+1<<endl;
+        cout<<rand()%10+1;
+        if(i!=moksk){
+            cout<<endl;
+        }
     }
 
     auto stop = high_resolution_clock::now();
@@ -437,7 +482,8 @@ void kurtifaila(){
     cout<<"Failo kurimo laikas: "<<duration.count()<<endl;
 }
 
-void input(int &moksk, vector<duom>& mok, double &duration){
+template <typename talpa, typename sk=int, typename skk=double>
+void input(talpa &mok, sk &moksk, skk &duration){
 
     srand(time(nullptr));
 
@@ -480,7 +526,7 @@ void input(int &moksk, vector<duom>& mok, double &duration){
 
     if(x==5){
         kurtifaila();
-        input(moksk, mok, duration);
+        input(mok, moksk, duration);
     }
 
     if(x==4){
@@ -586,7 +632,7 @@ void input(int &moksk, vector<duom>& mok, double &duration){
 
         mok.push_back(m);
 
-        if(a==1) input(moksk, mok, duration);
+        if(a==1) input(mok, moksk, duration);
 
         moksk++;
     }

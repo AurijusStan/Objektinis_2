@@ -5,6 +5,8 @@
 
 using namespace std;
 using namespace std::chrono;
+using std::setw;
+using std::left;
 
 struct duom{
     string vard;
@@ -26,10 +28,17 @@ bool sort4u(const duom &, const duom &);
 template <typename sk=int, typename talpa>
 void rusiuoti(sk &, sk &, talpa &);
 
-void calc(duom &);
+template <typename talpa>
+void calc(talpa &);
 
 template <typename talpa, typename sk> 
-void skirstymas(talpa &, talpa &, sk);
+void strategija3(talpa &, talpa &, sk);
+
+template <typename talpa, typename sk> 
+void strategija2(talpa &, talpa &, sk);
+
+template <typename talpa, typename sk> 
+void strategija1(talpa &, talpa &, sk, talpa &);
 
 template <typename sk, typename talpa>
 void skaitymas(sk &, sk &, talpa &);
@@ -39,6 +48,9 @@ double isfailo(sk &, talpa &);
 
 void kurtifaila();
 
-void input(int &, vector<duom>&, double &);
+template <typename talpa, typename sk=int, typename skk=double>
+void input(talpa &, sk &, skk &);
+
+// void input(int &, vector<duom> &, double &);
 
 #endif 
