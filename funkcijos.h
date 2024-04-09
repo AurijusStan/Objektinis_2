@@ -44,13 +44,18 @@ template <typename sk, typename talpa>
 void skaitymas(sk &, sk &, talpa &);
 
 template <typename talpa, typename sk=int>
-double isfailo(sk &, talpa &);
+void isfailo(talpa &, sk &);
 
 void kurtifaila();
 
-template <typename talpa, typename sk=int, typename skk=double>
-void input(talpa &, sk &, skk &);
+template <typename sk, typename talpa>
+double rankinis(sk &, talpa &, sk &);
 
-// void input(int &, vector<duom> &, double &);
+void input();
 
-#endif 
+
+// void inputV(int &, double &, vector<duom> &, int &s);
+// void inputL(int &, double &, list<duom> &, int &s);
+// void inputD(int &, double &, deque<duom> &, int &s);
+
+#endif

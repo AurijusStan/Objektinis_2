@@ -114,6 +114,11 @@ void strategija3(talpa &x, talpa &y, sk t){
     y=temp;
 
     x.erase(tarp, x.end());
+
+    // if(tarp!=end){
+    //     y.insert(y.end(), tarp, end);
+    //     x.erase(tarp, x.end());
+    // }
 }
 
 template <typename talpa, typename sk>
@@ -159,7 +164,6 @@ void strategija1(talpa &x, talpa &y, sk t, talpa &z){
 
     if(tarp!=end){
         y.insert(y.end(), tarp, end);
-        x.erase(tarp, x.end());
         z.insert(z.end(), begin, tarp);
         x.erase(x.begin(), x.end());
     }
@@ -183,7 +187,9 @@ void skaitymas(sk &moksk, sk &ndsk, talpa &mok){
         }
     }    
 
-    mok.reserve(moksk);
+    if constexpr (is_same<talpa, vector<duom>>::value){
+        mok.reserve(moksk);
+    }
 
     for(int i=0; i<moksk; i++){
         duom m;
@@ -211,7 +217,8 @@ void skaitymas(sk &moksk, sk &ndsk, talpa &mok){
 }
 
 template <typename talpa, typename sk=int>
-double isfailo(sk &moksk, talpa &mok){
+void isfailo(talpa &mok, sk &s){
+    int moksk=0;
     int ndsk=0;
     int maxmoksk=0;
     string failas;
@@ -243,7 +250,7 @@ double isfailo(sk &moksk, talpa &mok){
     }
 
     cout<<"Kiek asmenu nuskaityti nuo duoto failo?"<<endl;
-    while(!(cin>>moksk)||moksk<0||moksk<=maxmoksk-1){
+    while(!(cin>>moksk)||moksk<0||moksk>=maxmoksk){
         try{
             throw runtime_error("Klaidingai ivesti duomenys\n");
         }
@@ -254,8 +261,8 @@ double isfailo(sk &moksk, talpa &mok){
         }
     }
 
-    int x;
-    int t;
+    int x=0;
+    int t=0;
 
     cout<<"Rusiuoti pagal: 1-varda; 2-pavarde; 3-galutini(vid); 4-galutini(med)"<<endl;
     while(!(cin>>x)||x<1||x>4){
@@ -297,6 +304,22 @@ double isfailo(sk &moksk, talpa &mok){
         }
     }
 
+    int str;
+
+    if(uzd4==true){
+        cout<<"Kuria strategija pasiremti: 1, 2, 3"<<endl;
+        while(!(cin>>str)||str<1||str>3){
+            try{
+                throw runtime_error("Klaidingai ivesti duomenys\n");
+            }
+            catch(const runtime_error &e){
+                cin.clear();
+                cin.ignore();
+                cout<<e.what();
+            }
+        }
+    }
+
     freopen((failas+".txt").c_str(), "r", stdin);
 
     auto start = high_resolution_clock::now();
@@ -305,6 +328,9 @@ double isfailo(sk &moksk, talpa &mok){
 
     auto stop = high_resolution_clock::now();
     auto duration = duration_cast<milliseconds>(stop - start);
+
+    freopen("CON", "r", stdin);
+    freopen("CON", "w", stdout);
 
     cout<<"Skaitymo laikas: "<<duration.count()<<endl;
 
@@ -322,12 +348,23 @@ double isfailo(sk &moksk, talpa &mok){
 
     cout<<"Rusiavimo laikas: "<<duration.count()<<endl;
 
-    vector<duom> pazenge;
-
     if(uzd4==true){
+        auto pazenge=mok;
+        pazenge.erase(pazenge.begin(), pazenge.end());
+        auto zluge=mok;
+        zluge.erase(zluge.begin(), zluge.end());
+
         start = high_resolution_clock::now();
 
-        skirstymas(mok, pazenge, x);
+        if(str==1){
+            strategija1(mok, pazenge, x, zluge);
+        }
+        else if(str==2){
+            strategija2(mok, pazenge, x);
+        }
+        else if(str==3){
+            strategija3(mok, pazenge, x);
+        }
 
         stop = high_resolution_clock::now();
         duration = duration_cast<milliseconds>(stop - start);
@@ -377,9 +414,17 @@ double isfailo(sk &moksk, talpa &mok){
         cout<<setw(25)<<left<<"Vardas"<<setw(25)<<left<<"Pavarde"<<setw(18)<<left<<"Galutinis (Vid.)"<<setw(18)<<left<<"Galutinis (Med.)";
         cout<<endl;
 
-        for (const auto& elem : mok) {
-            cout<<setw(25)<<left<<elem.vard<<setw(25)<<left<<elem.pav<<setw(18)<<left<<elem.galvid<<setw(18)<<left<<elem.galmed;
-            cout<<endl;
+        if(str!=1){
+            for (const auto& elem : mok) {
+                cout<<setw(25)<<left<<elem.vard<<setw(25)<<left<<elem.pav<<setw(18)<<left<<elem.galvid<<setw(18)<<left<<elem.galmed;
+                cout<<endl;
+            }
+        }
+        else{
+            for (const auto& elem : zluge) {
+                cout<<setw(25)<<left<<elem.vard<<setw(25)<<left<<elem.pav<<setw(18)<<left<<elem.galvid<<setw(18)<<left<<elem.galmed;
+                cout<<endl;
+            }
         }
 
         stop = high_resolution_clock::now();
@@ -392,7 +437,7 @@ double isfailo(sk &moksk, talpa &mok){
 
         exit(0);
     }
-    return(duration.count());
+    return;
 }
 
 void kurtifaila(){
@@ -482,30 +527,9 @@ void kurtifaila(){
     cout<<"Failo kurimo laikas: "<<duration.count()<<endl;
 }
 
-template <typename talpa, typename sk=int, typename skk=double>
-void input(talpa &mok, sk &moksk, skk &duration){
-
-    srand(time(nullptr));
-
-    int x;
-
-    if(moksk==-1){
-        while(true){
-            cout<<"1-ranka; 2-generuoti pazymius; 3-generuoti pazymius ir varda/pavarde; 4-skaityti duomenis is failo; 5-sukurti nauja faila; 6-baigti darba"<<endl;
-            if(!(cin>>x)||x<1||x>6){
-                try{
-                    throw runtime_error("Klaidingai ivesti duomenys\n");
-                }
-                catch(const runtime_error &e){
-                    cin.clear();
-                    cin.ignore();
-                    cout<<e.what();
-                }
-            }
-            else break;
-        }
-    }
-    else{
+template <typename sk, typename talpa>
+void rankinis(sk &x, sk &moksk, talpa &mok){
+    if(moksk!=-1){
         while(true){
             cout<<"1-ranka; 2-generuoti pazymius; 3-generuoti pazymius ir varda/pavarde; 5-sukurti nauja faila; 6-baigti darba"<<endl;
             if(!(cin>>x)||x<1||x>6||x==4){
@@ -521,105 +545,23 @@ void input(talpa &mok, sk &moksk, skk &duration){
             else break;
         }
     }
+    
+    duom m;
+    moksk++;
 
-    if(x==6) exit(0);
-
-    if(x==5){
-        kurtifaila();
-        input(mok, moksk, duration);
-    }
-
-    if(x==4){
-        duration=isfailo(moksk, mok);
-        return;
+    if(x==3){
+        for(int i=0; i<4+rand()%6; i++){
+            if(i==0) m.vard+=(char) (65+rand()%25);
+            else m.vard+=(char) (97+rand()%25);
+        }
+        for(int i=0; i<4+rand()%8; i++){
+            if(i==0) m.pav+=(char) (65+rand()%25);
+            else m.pav+=(char) (97+rand()%25);
+        }
     }
     else{
-        duom m;
-        moksk++;
-
-        if(x==3){
-            for(int i=0; i<4+rand()%6; i++){
-                if(i==0) m.vard+=(char) (65+rand()%25);
-                else m.vard+=(char) (97+rand()%25);
-            }
-            for(int i=0; i<4+rand()%8; i++){
-                if(i==0) m.pav+=(char) (65+rand()%25);
-                else m.pav+=(char) (97+rand()%25);
-            }
-        }
-        else{
-            cout<<"Irasykite varda"<<endl;
-            while(!(cin>>m.vard)){
-                try{
-                    throw runtime_error("Klaidingai ivesti duomenys\n");
-                }
-                catch(const runtime_error &e){
-                    cin.clear();
-                    cin.ignore();
-                    cout<<e.what();
-                }
-            }
-            cout<<"Irasykite pavarde"<<endl;
-            while(!(cin>>m.pav)){
-                try{
-                    throw runtime_error("Klaidingai ivesti duomenys\n");
-                }
-                catch(const runtime_error &e){
-                    cin.clear();
-                    cin.ignore();
-                    cout<<e.what();
-                }
-            }
-        }
-        
-        if(x==2||x==3){
-            for(int i=0; i<1+rand()%15; i++){
-                m.ndrez.push_back(rand()%11);
-            }
-        }
-        else{
-            cout<<"Irasykite nd rezultatus po kiekvieno spaudziant enter, jei baigete parasykite skaiciu netelpanti i desimtbales sistemos intervala"<<endl;
-            int h;
-            while(true){
-                while(!(cin>>h)){
-                    try{
-                        throw runtime_error("Klaidingai ivesti duomenys\n");
-                    }
-                    catch(const runtime_error &e){
-                        cin.clear();
-                        cin.ignore();
-                        cout<<e.what();
-                    }
-                }
-                if(h<0||h>10){
-                    break;
-                }
-                m.ndrez.push_back(h);
-            }
-        }
-        if(x==2||x==3){
-            m.egzrez=rand()%11;
-        }
-        else{
-            cout<<"Irasykite egzamino rezultata"<<endl;
-            while(!(cin>>m.egzrez)||m.egzrez<0||m.egzrez>10){
-                try{
-                    throw runtime_error("Klaidingai ivesti duomenys\n");
-                }
-                catch(const runtime_error &e){
-                    cin.clear();
-                    cin.ignore();
-                    cout<<e.what();
-                }
-            }
-        }
-
-        calc(m);
-        
-        cout<<"Jei norite prideti daugiau mokiniu spauskite 1, jei baigete, spauskite bet koki kita svaika skaiciu"<<endl;
-        int a;
-
-        while(!(cin>>a)){
+        cout<<"Irasykite varda"<<endl;
+        while(!(cin>>m.vard)){
             try{
                 throw runtime_error("Klaidingai ivesti duomenys\n");
             }
@@ -629,12 +571,163 @@ void input(talpa &mok, sk &moksk, skk &duration){
                 cout<<e.what();
             }
         }
+        cout<<"Irasykite pavarde"<<endl;
+        while(!(cin>>m.pav)){
+            try{
+                throw runtime_error("Klaidingai ivesti duomenys\n");
+            }
+            catch(const runtime_error &e){
+                cin.clear();
+                cin.ignore();
+                cout<<e.what();
+            }
+        }
+    }
+    
+    if(x==2||x==3){
+        for(int i=0; i<1+rand()%15; i++){
+            m.ndrez.push_back(rand()%11);
+        }
+    }
+    else{
+        cout<<"Irasykite nd rezultatus po kiekvieno spaudziant enter, jei baigete parasykite skaiciu netelpanti i desimtbales sistemos intervala"<<endl;
+        int h;
+        while(true){
+            while(!(cin>>h)){
+                try{
+                    throw runtime_error("Klaidingai ivesti duomenys\n");
+                }
+                catch(const runtime_error &e){
+                    cin.clear();
+                    cin.ignore();
+                    cout<<e.what();
+                }
+            }
+            if(h<0||h>10){
+                break;
+            }
+            m.ndrez.push_back(h);
+        }
+    }
+    if(x==2||x==3){
+        m.egzrez=rand()%11;
+    }
+    else{
+        cout<<"Irasykite egzamino rezultata"<<endl;
+        while(!(cin>>m.egzrez)||m.egzrez<0||m.egzrez>10){
+            try{
+                throw runtime_error("Klaidingai ivesti duomenys\n");
+            }
+            catch(const runtime_error &e){
+                cin.clear();
+                cin.ignore();
+                cout<<e.what();
+            }
+        }
+    }
 
-        mok.push_back(m);
+    calc(m);
+    
+    cout<<"Jei norite prideti daugiau mokiniu spauskite 1, jei baigete, spauskite bet koki kita svaika skaiciu"<<endl;
+    int a;
 
-        if(a==1) input(mok, moksk, duration);
+    while(!(cin>>a)){
+        try{
+            throw runtime_error("Klaidingai ivesti duomenys\n");
+        }
+        catch(const runtime_error &e){
+            cin.clear();
+            cin.ignore();
+            cout<<e.what();
+        }
+    }
 
-        moksk++;
+    mok.push_back(m);
+
+    if(a==1) rankinis(x, moksk, mok);
+
+    moksk++;
+}
+
+void input(){
+
+    srand(time(nullptr));
+
+    int x;
+    int s;
+
+    while(true){
+        cout<<"1-Vector; 2-List; 3-Deque"<<endl;
+        if(!(cin>>s)||s<1||s>3){
+            try{
+                throw runtime_error("Klaidingai ivesti duomenys\n");
+            }
+            catch(const runtime_error &e){
+                cin.clear();
+                cin.ignore();
+                cout<<e.what();
+            }
+        }
+        else break;
+    }
+
+    vector<duom> mokV;
+    list<duom> mokL;
+    deque<duom> mokD;
+
+    double duration = 0;
+
+    while(true){
+        cout<<"1-ranka; 2-generuoti pazymius; 3-generuoti pazymius ir varda/pavarde; 4-skaityti duomenis is failo; 5-sukurti nauja faila; 6-baigti darba"<<endl;
+        if(!(cin>>x)||x<1||x>6){
+            try{
+                throw runtime_error("Klaidingai ivesti duomenys\n");
+            }
+            catch(const runtime_error &e){
+                cin.clear();
+                cin.ignore();
+                cout<<e.what();
+            }
+        }
+        else break;
+    }
+
+    if(x==6) exit(0);
+
+    if(x==5){
+        kurtifaila();
+        input();
+    }
+
+    if(x==4){
+        if(s==1) isfailo(mokV, s);
+        if(s==2) isfailo(mokL, s);
+        if(s==3) isfailo(mokD, s);
+    }
+    else{
+        int moksk=-1;
+        if(s==1) rankinis(x, moksk, mokV);
+        if(s==2) rankinis(x, moksk, mokL);
+        if(s==3) rankinis(x, moksk, mokD);
+    }
+
+    cout<<setw(19)<<left<<"Vardas"<<setw(19)<<left<<"Pavarde"<<setw(19)<<left<<"Galutinis (Vid.)"<<setw(19)<<left<<"Galutinis (Med.)"<<endl;
+    cout<<"-------------------------------------------------------------------------"<<endl;
+
+    if(s==1){
+        for(const auto& elem : mokV){
+            cout<<setw(19)<<left<<elem.vard<<setw(19)<<left<<elem.pav<<setw(19)<<left<<setprecision(3)<<elem.galvid<<setw(19)<<left<<setprecision(3)<<elem.galmed<<endl;
+        }
+    }
+    else if(s==2){
+        for(const auto& elem : mokL){
+            cout<<setw(19)<<left<<elem.vard<<setw(19)<<left<<elem.pav<<setw(19)<<left<<setprecision(3)<<elem.galvid<<setw(19)<<left<<setprecision(3)<<elem.galmed<<endl;
+        }
+    }
+    else if(s==3){
+        for(const auto& elem : mokD){
+            cout<<setw(19)<<left<<elem.vard<<setw(19)<<left<<elem.pav<<setw(19)<<left<<setprecision(3)<<elem.galvid<<setw(19)<<left<<setprecision(3)<<elem.galmed<<endl;
+        }
     }
 
     return;
