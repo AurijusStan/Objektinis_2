@@ -3,28 +3,28 @@
 using namespace std;
 
 bool sort1(const duom &a, const duom &b){
-    return(a.vard<b.vard);
+    return(a.vard_<b.vard_);
 }
 bool sort2(const duom &a, const duom &b){
-    return(a.pav<b.pav);
+    return(a.pav_<b.pav_);
 }
 bool sort3(const duom &a, const duom &b){
-    return(a.galvid<b.galvid);
+    return(a.galvid_<b.galvid_);
 }
 bool sort4(const duom &a, const duom &b){
-    return(a.galmed<b.galmed);
+    return(a.galmed_<b.galmed_);
 }
 bool sort1u(const duom &a, const duom &b){
-    return(a.vard>b.vard);
+    return(a.vard_>b.vard_);
 }
 bool sort2u(const duom &a, const duom &b){
-    return(a.pav>b.pav);
+    return(a.pav_>b.pav_);
 }
 bool sort3u(const duom &a, const duom &b){
-    return(a.galvid>b.galvid);
+    return(a.galvid_>b.galvid_);
 }
 bool sort4u(const duom &a, const duom &b){
-    return(a.galmed>b.galmed);
+    return(a.galmed_>b.galmed_);
 }
 
 template <typename sk=int, typename talpa> 
@@ -58,24 +58,21 @@ void rusiuotilist(sk &x, sk &t, list<duom> &mok) {
     }
 }
 
-template <typename talpa>
-void calc(talpa &m){
-    int a=accumulate(m.ndrez.begin(), m.ndrez.end(), 0);
+void duom::calc(){
+    int a=accumulate(ndrez_.begin(), ndrez_.end(), 0);
     double sum=a;
     double egz=0;
     double med=0;
-
-    sort(m.ndrez.begin(), m.ndrez.end());
     
-    sort(m.ndrez.begin(), m.ndrez.end());
+    sort(ndrez_.begin(), ndrez_.end());
 
-    if(m.ndrez.size()!=0){
-        sum=sum/(m.ndrez.size());
+    if(ndrez_.size()!=0){
+        sum=sum/(ndrez_.size());
 
-        auto it = m.ndrez.begin();
-        advance(it, m.ndrez.size()/2);
+        auto it = ndrez_.begin();
+        advance(it, ndrez_.size()/2);
 
-        if (m.ndrez.size()%2==0){
+        if (ndrez_.size()%2==0){
             auto it1 = it;
             std::advance(it1, -1);
             med = (*it + *it1) / 2.0;
@@ -84,18 +81,13 @@ void calc(talpa &m){
             med = *it;
         }
     }
-    egz=m.egzrez;
+    egz=egzrez_;
 
-    m.galvid=sum*0.4+egz*0.6;
-    m.galmed=med*0.4+egz*0.6;
+    galvid_=sum*0.4+egz*0.6;
+    galmed_=med*0.4+egz*0.6;
 }
 
-bool pagalVid(const duom &x, const double d){
-    return x.galvid<d;
-}
-bool pagalMed(const duom &x, const double d){
-    return x.galmed<d;
-}
+
 
 template <typename talpa, typename sk> 
 void strategija3(talpa &x, talpa &y, sk t){
@@ -527,6 +519,31 @@ void kurtifaila(){
     cout<<"Failo kurimo laikas: "<<duration.count()<<endl;
 }
 
+void duom::vpskait(){
+    cout<<"Irasykite varda"<<endl;
+    while(!(cin>>vard_)){
+        try{
+            throw runtime_error("Klaidingai ivesti duomenys\n");
+        }
+        catch(const runtime_error &e){
+            cin.clear();
+            cin.ignore();
+            cout<<e.what();
+        }
+    }
+    cout<<"Irasykite pavarde"<<endl;
+    while(!(cin>>pav_)){
+        try{
+            throw runtime_error("Klaidingai ivesti duomenys\n");
+        }
+        catch(const runtime_error &e){
+            cin.clear();
+            cin.ignore();
+            cout<<e.what();
+        }
+    }
+}
+
 template <typename sk, typename talpa>
 void rankinis(sk &x, sk &moksk, talpa &mok){
     if(moksk!=-1){
@@ -551,37 +568,18 @@ void rankinis(sk &x, sk &moksk, talpa &mok){
 
     if(x==3){
         for(int i=0; i<4+rand()%6; i++){
-            if(i==0) m.vard+=(char) (65+rand()%25);
-            else m.vard+=(char) (97+rand()%25);
+            if(i==0) m.vard_+=(char) (65+rand()%25);
+            else m.vard_+=(char) (97+rand()%25);
         }
         for(int i=0; i<4+rand()%8; i++){
-            if(i==0) m.pav+=(char) (65+rand()%25);
-            else m.pav+=(char) (97+rand()%25);
+            if(i==0) m.pav_+=(char) (65+rand()%25);
+            else m.pav_+=(char) (97+rand()%25);
         }
     }
     else{
-        cout<<"Irasykite varda"<<endl;
-        while(!(cin>>m.vard)){
-            try{
-                throw runtime_error("Klaidingai ivesti duomenys\n");
-            }
-            catch(const runtime_error &e){
-                cin.clear();
-                cin.ignore();
-                cout<<e.what();
-            }
-        }
-        cout<<"Irasykite pavarde"<<endl;
-        while(!(cin>>m.pav)){
-            try{
-                throw runtime_error("Klaidingai ivesti duomenys\n");
-            }
-            catch(const runtime_error &e){
-                cin.clear();
-                cin.ignore();
-                cout<<e.what();
-            }
-        }
+        vpskait();
+
+        
     }
     
     if(x==2||x==3){
@@ -716,7 +714,7 @@ void input(){
 
     if(s==1){
         for(const auto& elem : mokV){
-            cout<<setw(19)<<left<<elem.vard<<setw(19)<<left<<elem.pav<<setw(19)<<left<<setprecision(3)<<elem.galvid<<setw(19)<<left<<setprecision(3)<<elem.galmed<<endl;
+            cout<<setw(19)<<left<<elem.vardas()<<setw(19)<<left<<elem.pavarde()<<setw(19)<<left<<setprecision(3)<<elem.galvid<<setw(19)<<left<<setprecision(3)<<elem.galmed<<endl;
         }
     }
     else if(s==2){

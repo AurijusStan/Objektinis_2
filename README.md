@@ -30,7 +30,7 @@
 | stud1000 | 11 | 0 | 1 |
 | stud10000 | 87 | 16 | 1 |
 | stud100000 | 907 | 147 | 25 |
-| stud1000000 | 8996 | 1911 | 292 |
+| stud1000000 | 8296 | 1911 | 292 |
 | stud10000000 | 90697 | 25683 | 2911 |
 
 #### List
@@ -98,9 +98,9 @@
 
 |  | Skaitymo, rūšiavimo ir skirtsymo trukmė (ms) | .exe dysis |
 | :--- | ---- | ---- |
-| Struct -O1 | 10142 | 466 KB |
-| Struct -O2 | 10202 | 466 KB |
-| Struct -O3 | 10277 | 466 KB |
+| Struct -O1 | 10118 | 466 KB |
+| Struct -O2 | 10166 | 466 KB |
+| Struct -O3 | 10388 | 466 KB |
 | Class -O1 |  |  |
 | Class -O2 |  |  |
 | Class -O3 |  |  |

@@ -8,28 +8,45 @@ using namespace std::chrono;
 using std::setw;
 using std::left;
 
-struct duom{
-    string vard;
-    string pav;
-    vector<int> ndrez;
-    int egzrez;
-    double galvid, galmed;
-};
+class duom{
+    private:
+        string vard_;
+        string pav_;
+        vector<int> ndrez_;
+        int egzrez_;
+        double galvid_, galmed_;
+    public:
+        duom() : galvid_(0) {}
+        ~duom() {}
+        duom(istream &is);
+        inline string vard() const { return vard_; }
+        inline string pav() const { return pav_; }
+        inline double galvid() const { return galvid_; }
+        inline double galmed() const { return galmed_; }
 
-bool sort1(const duom &, const duom &);
-bool sort2(const duom &, const duom &);
-bool sort3(const duom &, const duom &);
-bool sort4(const duom &, const duom &);
-bool sort1u(const duom &, const duom &);
-bool sort2u(const duom &, const duom &);
-bool sort3u(const duom &, const duom &);
-bool sort4u(const duom &, const duom &);
+        void vardas(const string &va) { vard_=va; }
+        void pavarde(const string &pa) { pav_=pa; }
+        void nd(int nd) { ndrez_.push_back(nd); }
+        void egz(int egz) { egzrez_=egz; }
+        void calc();
+
+        void vpskait();
+
+        friend bool sort1(const duom &, const duom &);
+        friend bool sort2(const duom &, const duom &);
+        friend bool sort3(const duom &, const duom &);
+        friend bool sort4(const duom &, const duom &);
+        friend bool sort1u(const duom &, const duom &);
+        friend bool sort2u(const duom &, const duom &);
+        friend bool sort3u(const duom &, const duom &);
+        friend bool sort4u(const duom &, const duom &);
+        friend bool pagalVid(const duom &x, const double d){ return x.galvid_<d; }
+        bool pagalMed(const duom &x, const double d){ return x.galmed_<d; }
+
+};
 
 template <typename sk=int, typename talpa>
 void rusiuoti(sk &, sk &, talpa &);
-
-template <typename talpa>
-void calc(talpa &);
 
 template <typename talpa, typename sk> 
 void strategija3(talpa &, talpa &, sk);
@@ -52,10 +69,5 @@ template <typename sk, typename talpa>
 double rankinis(sk &, talpa &, sk &);
 
 void input();
-
-
-// void inputV(int &, double &, vector<duom> &, int &s);
-// void inputL(int &, double &, list<duom> &, int &s);
-// void inputD(int &, double &, deque<duom> &, int &s);
 
 #endif
