@@ -213,7 +213,7 @@ void skaitymas(sk &moksk, sk &ndsk, talpa &mok){
 }
 
 void duom::spausdinti(){
-    cout<<setw(25)<<left<<vard_<<setw(25)<<left<<pav_<<setw(18)<<left<<galvid_<<setw(18)<<left<<galmed_;
+    cout<<setw(25)<<left<<vard_<<setw(25)<<left<<pav_<<setw(18)<<left<<setprecision(3)<<galvid_<<setw(18)<<left<<setprecision(3)<<galmed_;
     cout<<endl;
 }
 

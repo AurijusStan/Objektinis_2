@@ -1,4 +1,4 @@
-# Objektinio užduotis 1
+# Objektinio užduotis 2
   Programa skaičiuojanti galutinį studento rezultatą pagal pateiktus namų darbų ir egzamino rezultatus.
 
 ## Funkcionalumas
