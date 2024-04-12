@@ -110,15 +110,15 @@ void strategija3(talpa &x, talpa &y, sk t){
         tarp=lower_bound(x.begin(), x.end(), 5.0, pagalMed);
     }
 
-    talpa temp (tarp, x.end());
-    y=temp;
+    // talpa temp (tarp, x.end());
+    // y=temp;
 
-    x.erase(tarp, x.end());
+    // x.erase(tarp, x.end());
 
-    // if(tarp!=end){
-    //     y.insert(y.end(), tarp, end);
-    //     x.erase(tarp, x.end());
-    // }
+    if(tarp!=end){
+        y.insert(y.end(), tarp, end);
+        x.erase(tarp, x.end());
+    }
 }
 
 template <typename talpa, typename sk>
@@ -261,64 +261,64 @@ void isfailo(talpa &mok, sk &s){
         }
     }
 
-    int x=0;
-    int t=0;
+    int x=3;
+    int t=1;
 
-    cout<<"Rusiuoti pagal: 1-varda; 2-pavarde; 3-galutini(vid); 4-galutini(med)"<<endl;
-    while(!(cin>>x)||x<1||x>4){
-        try{
-            throw runtime_error("Klaidingai ivesti duomenys\n");
-        }
-        catch(const runtime_error &e){
-            cin.clear();
-            cin.ignore();
-            cout<<e.what();
-        }
-    }
+    // cout<<"Rusiuoti pagal: 1-varda; 2-pavarde; 3-galutini(vid); 4-galutini(med)"<<endl;
+    // while(!(cin>>x)||x<1||x>4){
+    //     try{
+    //         throw runtime_error("Klaidingai ivesti duomenys\n");
+    //     }
+    //     catch(const runtime_error &e){
+    //         cin.clear();
+    //         cin.ignore();
+    //         cout<<e.what();
+    //     }
+    // }
 
-    cout<<"Tvarka: 1-didejimo; 2-mazejimo"<<endl;
-    while(!(cin>>t)||t<1||t>2){
-        try{
-            throw runtime_error("Klaidingai ivesti duomenys\n");
-        }
-        catch(const runtime_error &e){
-            cin.clear();
-            cin.ignore();
-            cout<<e.what();
-            cout<<"Pasirinkite viena is variantu"<<endl;
-        }
-    }
+    // cout<<"Tvarka: 1-didejimo; 2-mazejimo"<<endl;
+    // while(!(cin>>t)||t<1||t>2){
+    //     try{
+    //         throw runtime_error("Klaidingai ivesti duomenys\n");
+    //     }
+    //     catch(const runtime_error &e){
+    //         cin.clear();
+    //         cin.ignore();
+    //         cout<<e.what();
+    //         cout<<"Pasirinkite viena is variantu"<<endl;
+    //     }
+    // }
 
-    bool uzd4;
+    bool uzd4=true;
 
-    cout<<"Ar atliekama 0.4 uzduotis?(1/0)"<<endl;
-    while(!(cin>>uzd4)){
-        try{
-            throw runtime_error("Klaidingai ivesti duomenys\n");
-        }
-        catch(const runtime_error &e){
-            cin.clear();
-            cin.ignore();
-            cout<<e.what();
-            cout<<"Pasirinkite viena is variantu"<<endl;
-        }
-    }
+    // cout<<"Ar atliekama 0.4 uzduotis?(1/0)"<<endl;
+    // while(!(cin>>uzd4)){
+    //     try{
+    //         throw runtime_error("Klaidingai ivesti duomenys\n");
+    //     }
+    //     catch(const runtime_error &e){
+    //         cin.clear();
+    //         cin.ignore();
+    //         cout<<e.what();
+    //         cout<<"Pasirinkite viena is variantu"<<endl;
+    //     }
+    // }
 
-    int str;
+    int str=3;
 
-    if(uzd4==true){
-        cout<<"Kuria strategija pasiremti: 1, 2, 3"<<endl;
-        while(!(cin>>str)||str<1||str>3){
-            try{
-                throw runtime_error("Klaidingai ivesti duomenys\n");
-            }
-            catch(const runtime_error &e){
-                cin.clear();
-                cin.ignore();
-                cout<<e.what();
-            }
-        }
-    }
+    // if(uzd4==true){
+    //     cout<<"Kuria strategija pasiremti: 1, 2, 3"<<endl;
+    //     while(!(cin>>str)||str<1||str>3){
+    //         try{
+    //             throw runtime_error("Klaidingai ivesti duomenys\n");
+    //         }
+    //         catch(const runtime_error &e){
+    //             cin.clear();
+    //             cin.ignore();
+    //             cout<<e.what();
+    //         }
+    //     }
+    // }
 
     freopen((failas+".txt").c_str(), "r", stdin);
 
@@ -371,69 +371,69 @@ void isfailo(talpa &mok, sk &s){
 
         cout<<"Skirstymo laikas: "<<duration.count()<<endl;
 
-        start = high_resolution_clock::now();
+        // start = high_resolution_clock::now();
 
-        ifstream file("pazenge.txt");
+        // ifstream file("pazenge.txt");
 
-        if(file.is_open()){
-            remove("pazenge.txt");
-        }
-        file.close();
+        // if(file.is_open()){
+        //     remove("pazenge.txt");
+        // }
+        // file.close();
 
-        freopen("pazenge.txt", "r", stdin);
-        freopen("pazenge.txt", "w", stdout);
+        // freopen("pazenge.txt", "r", stdin);
+        // freopen("pazenge.txt", "w", stdout);
 
-        cout<<setw(25)<<left<<"Vardas"<<setw(25)<<left<<"Pavarde"<<setw(18)<<left<<"Galutinis (Vid.)"<<setw(18)<<left<<"Galutinis (Med.)";
-        cout<<endl;
+        // cout<<setw(25)<<left<<"Vardas"<<setw(25)<<left<<"Pavarde"<<setw(18)<<left<<"Galutinis (Vid.)"<<setw(18)<<left<<"Galutinis (Med.)";
+        // cout<<endl;
 
-        for (const auto& elem : pazenge) {
-            cout<<setw(25)<<left<<elem.vard<<setw(25)<<left<<elem.pav<<setw(18)<<left<<elem.galvid<<setw(18)<<left<<elem.galmed;
-            cout<<endl;
-        }
+        // for (const auto& elem : pazenge) {
+        //     cout<<setw(25)<<left<<elem.vard<<setw(25)<<left<<elem.pav<<setw(18)<<left<<elem.galvid<<setw(18)<<left<<elem.galmed;
+        //     cout<<endl;
+        // }
 
-        stop = high_resolution_clock::now();
-        duration = duration_cast<milliseconds>(stop - start);
+        // stop = high_resolution_clock::now();
+        // duration = duration_cast<milliseconds>(stop - start);
 
-        freopen("CON", "r", stdin);
-        freopen("CON", "w", stdout);
+        // freopen("CON", "r", stdin);
+        // freopen("CON", "w", stdout);
 
-        cout<<"Pazengusiu spausdinimo laikas: "<<duration.count()<<endl;
+        // cout<<"Pazengusiu spausdinimo laikas: "<<duration.count()<<endl;
 
-        auto start = high_resolution_clock::now();
+        // auto start = high_resolution_clock::now();
 
-        ifstream filez("zluge.txt");
+        // ifstream filez("zluge.txt");
 
-        if(filez.is_open()){
-            remove("zluge.txt");
-        }
-        filez.close();
+        // if(filez.is_open()){
+        //     remove("zluge.txt");
+        // }
+        // filez.close();
 
-        freopen("zluge.txt", "r", stdin);
-        freopen("zluge.txt", "w", stdout);
+        // freopen("zluge.txt", "r", stdin);
+        // freopen("zluge.txt", "w", stdout);
 
-        cout<<setw(25)<<left<<"Vardas"<<setw(25)<<left<<"Pavarde"<<setw(18)<<left<<"Galutinis (Vid.)"<<setw(18)<<left<<"Galutinis (Med.)";
-        cout<<endl;
+        // cout<<setw(25)<<left<<"Vardas"<<setw(25)<<left<<"Pavarde"<<setw(18)<<left<<"Galutinis (Vid.)"<<setw(18)<<left<<"Galutinis (Med.)";
+        // cout<<endl;
 
-        if(str!=1){
-            for (const auto& elem : mok) {
-                cout<<setw(25)<<left<<elem.vard<<setw(25)<<left<<elem.pav<<setw(18)<<left<<elem.galvid<<setw(18)<<left<<elem.galmed;
-                cout<<endl;
-            }
-        }
-        else{
-            for (const auto& elem : zluge) {
-                cout<<setw(25)<<left<<elem.vard<<setw(25)<<left<<elem.pav<<setw(18)<<left<<elem.galvid<<setw(18)<<left<<elem.galmed;
-                cout<<endl;
-            }
-        }
+        // if(str!=1){
+        //     for (const auto& elem : mok) {
+        //         cout<<setw(25)<<left<<elem.vard<<setw(25)<<left<<elem.pav<<setw(18)<<left<<elem.galvid<<setw(18)<<left<<elem.galmed;
+        //         cout<<endl;
+        //     }
+        // }
+        // else{
+        //     for (const auto& elem : zluge) {
+        //         cout<<setw(25)<<left<<elem.vard<<setw(25)<<left<<elem.pav<<setw(18)<<left<<elem.galvid<<setw(18)<<left<<elem.galmed;
+        //         cout<<endl;
+        //     }
+        // }
 
-        stop = high_resolution_clock::now();
-        duration = duration_cast<milliseconds>(stop - start);
+        // stop = high_resolution_clock::now();
+        // duration = duration_cast<milliseconds>(stop - start);
 
-        freopen("CON", "r", stdin);
-        freopen("CON", "w", stdout);
+        // freopen("CON", "r", stdin);
+        // freopen("CON", "w", stdout);
 
-        cout<<"Zlugusiu spausdinimo laikas: "<<duration.count();
+        // cout<<"Zlugusiu spausdinimo laikas: "<<duration.count();
 
         exit(0);
     }
@@ -656,20 +656,20 @@ void input(){
     int x;
     int s;
 
-    while(true){
-        cout<<"1-Vector; 2-List; 3-Deque"<<endl;
-        if(!(cin>>s)||s<1||s>3){
-            try{
-                throw runtime_error("Klaidingai ivesti duomenys\n");
-            }
-            catch(const runtime_error &e){
-                cin.clear();
-                cin.ignore();
-                cout<<e.what();
-            }
-        }
-        else break;
-    }
+    // while(true){
+    //     cout<<"1-Vector; 2-List; 3-Deque"<<endl;
+    //     if(!(cin>>s)||s<1||s>3){
+    //         try{
+    //             throw runtime_error("Klaidingai ivesti duomenys\n");
+    //         }
+    //         catch(const runtime_error &e){
+    //             cin.clear();
+    //             cin.ignore();
+    //             cout<<e.what();
+    //         }
+    //     }
+    //     else break;
+    // }
 
     vector<duom> mokV;
     list<duom> mokL;
@@ -677,20 +677,22 @@ void input(){
 
     double duration = 0;
 
-    while(true){
-        cout<<"1-ranka; 2-generuoti pazymius; 3-generuoti pazymius ir varda/pavarde; 4-skaityti duomenis is failo; 5-sukurti nauja faila; 6-baigti darba"<<endl;
-        if(!(cin>>x)||x<1||x>6){
-            try{
-                throw runtime_error("Klaidingai ivesti duomenys\n");
-            }
-            catch(const runtime_error &e){
-                cin.clear();
-                cin.ignore();
-                cout<<e.what();
-            }
-        }
-        else break;
-    }
+    // while(true){
+    //     cout<<"1-ranka; 2-generuoti pazymius; 3-generuoti pazymius ir varda/pavarde; 4-skaityti duomenis is failo; 5-sukurti nauja faila; 6-baigti darba"<<endl;
+    //     if(!(cin>>x)||x<1||x>6){
+    //         try{
+    //             throw runtime_error("Klaidingai ivesti duomenys\n");
+    //         }
+    //         catch(const runtime_error &e){
+    //             cin.clear();
+    //             cin.ignore();
+    //             cout<<e.what();
+    //         }
+    //     }
+    //     else break;
+    // }
+
+    x=4;
 
     if(x==6) exit(0);
 
@@ -700,9 +702,10 @@ void input(){
     }
 
     if(x==4){
-        if(s==1) isfailo(mokV, s);
-        if(s==2) isfailo(mokL, s);
-        if(s==3) isfailo(mokD, s);
+        // if(s==1) isfailo(mokV, s);
+        // if(s==2) isfailo(mokL, s);
+        // if(s==3) isfailo(mokD, s);
+        isfailo(mokD, s);
     }
     else{
         int moksk=-1;
