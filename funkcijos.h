@@ -18,7 +18,7 @@ class duom{
     public:
         duom() : galvid_(0) {}
         ~duom() {}
-        duom(istream &is);
+        duom(istream &cin);
         inline string vard() const { return vard_; }
         inline string pav() const { return pav_; }
         inline double galvid() const { return galvid_; }
@@ -31,6 +31,11 @@ class duom{
         void calc();
 
         void vpskait();
+        void skaitduom(int);
+        void spausdinti();
+        void vardoGen();
+        void ndGen();
+        void egzGen();
 
         friend bool sort1(const duom &, const duom &);
         friend bool sort2(const duom &, const duom &);
@@ -40,9 +45,8 @@ class duom{
         friend bool sort2u(const duom &, const duom &);
         friend bool sort3u(const duom &, const duom &);
         friend bool sort4u(const duom &, const duom &);
-        friend bool pagalVid(const duom &x, const double d){ return x.galvid_<d; }
-        bool pagalMed(const duom &x, const double d){ return x.galmed_<d; }
-
+        friend bool pagalVid(const duom &x, const double d);
+        friend bool pagalMed(const duom &x, const double d);
 };
 
 template <typename sk=int, typename talpa>

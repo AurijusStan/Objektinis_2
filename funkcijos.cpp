@@ -87,7 +87,12 @@ void duom::calc(){
     galmed_=med*0.4+egz*0.6;
 }
 
-
+bool pagalVid(const duom &x, const double d){ 
+    return x.galvid_<d; 
+}
+bool pagalMed(const duom &x, const double d){ 
+    return x.galmed_<d; 
+}
 
 template <typename talpa, typename sk> 
 void strategija3(talpa &x, talpa &y, sk t){
@@ -102,11 +107,6 @@ void strategija3(talpa &x, talpa &y, sk t){
         tarp=lower_bound(x.begin(), x.end(), 5.0, pagalMed);
     }
 
-    // talpa temp (tarp, x.end());
-    // y=temp;
-
-    // x.erase(tarp, x.end());
-
     if(tarp!=end){
         y.insert(y.end(), tarp, end);
         x.erase(tarp, x.end());
@@ -120,11 +120,11 @@ void strategija2(talpa &x, talpa &y, sk t){
     auto tarp=end;
 
     for(; it!=end; ++it){
-        if(t==3&&it->galvid>=5){
+        if(t==3&&it->galvid()>=5){
             tarp=it;
             break;
         }
-        if(t==4 && it->galmed>=5){
+        if(t==4 && it->galmed()>=5){
             tarp=it;
             break;
         }
@@ -144,11 +144,11 @@ void strategija1(talpa &x, talpa &y, sk t, talpa &z){
     auto tarp=end;
 
     for(; it!=end; ++it){
-        if(t==3&&it->galvid>=5){
+        if(t==3&&it->galvid()>=5){
             tarp=it;
             break;
         }
-        if(t==4&&it->galmed>=5){
+        if(t==4&&it->galmed()>=5){
             tarp=it;
             break;
         }
@@ -159,6 +159,22 @@ void strategija1(talpa &x, talpa &y, sk t, talpa &z){
         z.insert(z.end(), begin, tarp);
         x.erase(x.begin(), x.end());
     }
+}
+
+void duom::skaitduom(int ndsk){
+    string vardas;
+
+    cin>>vard_>>pav_;
+
+    ndrez_.reserve(ndsk);
+
+    for(int j=0; j<ndsk; j++){
+        int a;
+        cin>>a;
+        ndrez_.push_back(a);
+    }
+
+    cin>>egzrez_;
 }
 
 template <typename sk, typename talpa>
@@ -186,26 +202,19 @@ void skaitymas(sk &moksk, sk &ndsk, talpa &mok){
     for(int i=0; i<moksk; i++){
         duom m;
 
-        string vardas;
+        m.skaitduom(ndsk);
 
-        cin>>m.vard>>m.pav;
-
-        m.ndrez.reserve(ndsk);
-
-        for(int j=0; j<ndsk; j++){
-            int a;
-            cin>>a;
-            m.ndrez.push_back(a);
-        }
-
-        cin>>m.egzrez;
-
-        calc(m);
+        m.calc();
 
         mok.push_back(m);
         
         cin.ignore(255, '\n');
     }
+}
+
+void duom::spausdinti(){
+    cout<<setw(25)<<left<<vard_<<setw(25)<<left<<pav_<<setw(18)<<left<<galvid_<<setw(18)<<left<<galmed_;
+    cout<<endl;
 }
 
 template <typename talpa, typename sk=int>
@@ -378,9 +387,9 @@ void isfailo(talpa &mok, sk &s){
         cout<<setw(25)<<left<<"Vardas"<<setw(25)<<left<<"Pavarde"<<setw(18)<<left<<"Galutinis (Vid.)"<<setw(18)<<left<<"Galutinis (Med.)";
         cout<<endl;
 
-        for (const auto& elem : pazenge) {
-            cout<<setw(25)<<left<<elem.vard<<setw(25)<<left<<elem.pav<<setw(18)<<left<<elem.galvid<<setw(18)<<left<<elem.galmed;
-            cout<<endl;
+
+        for (auto& elem : pazenge) {
+            elem.spausdinti();
         }
 
         stop = high_resolution_clock::now();
@@ -407,15 +416,13 @@ void isfailo(talpa &mok, sk &s){
         cout<<endl;
 
         if(str!=1){
-            for (const auto& elem : mok) {
-                cout<<setw(25)<<left<<elem.vard<<setw(25)<<left<<elem.pav<<setw(18)<<left<<elem.galvid<<setw(18)<<left<<elem.galmed;
-                cout<<endl;
+            for (auto& elem : mok) {
+                elem.spausdinti();
             }
         }
         else{
-            for (const auto& elem : zluge) {
-                cout<<setw(25)<<left<<elem.vard<<setw(25)<<left<<elem.pav<<setw(18)<<left<<elem.galvid<<setw(18)<<left<<elem.galmed;
-                cout<<endl;
+            for (auto& elem : zluge) {
+                elem.spausdinti();
             }
         }
 
@@ -544,6 +551,27 @@ void duom::vpskait(){
     }
 }
 
+void duom::vardoGen(){
+    for(int i=0; i<4+rand()%6; i++){
+        if(i==0) vard_+=(char) (65+rand()%25);
+        else vard_+=(char) (97+rand()%25);
+    }
+    for(int i=0; i<4+rand()%8; i++){
+        if(i==0) pav_+=(char) (65+rand()%25);
+        else pav_+=(char) (97+rand()%25);
+    }
+}
+
+void duom::ndGen(){
+    for(int i=0; i<1+rand()%15; i++){
+        nd(rand()%11);
+    }
+}
+
+void duom::egzGen(){
+    egz(rand()%11);
+}
+
 template <typename sk, typename talpa>
 void rankinis(sk &x, sk &moksk, talpa &mok){
     if(moksk!=-1){
@@ -567,25 +595,13 @@ void rankinis(sk &x, sk &moksk, talpa &mok){
     moksk++;
 
     if(x==3){
-        for(int i=0; i<4+rand()%6; i++){
-            if(i==0) m.vard_+=(char) (65+rand()%25);
-            else m.vard_+=(char) (97+rand()%25);
-        }
-        for(int i=0; i<4+rand()%8; i++){
-            if(i==0) m.pav_+=(char) (65+rand()%25);
-            else m.pav_+=(char) (97+rand()%25);
-        }
+        m.vardoGen();
     }
     else{
-        vpskait();
-
-        
+        m.vpskait();
     }
-    
     if(x==2||x==3){
-        for(int i=0; i<1+rand()%15; i++){
-            m.ndrez.push_back(rand()%11);
-        }
+        m.ndGen();
     }
     else{
         cout<<"Irasykite nd rezultatus po kiekvieno spaudziant enter, jei baigete parasykite skaiciu netelpanti i desimtbales sistemos intervala"<<endl;
@@ -604,15 +620,17 @@ void rankinis(sk &x, sk &moksk, talpa &mok){
             if(h<0||h>10){
                 break;
             }
-            m.ndrez.push_back(h);
+            m.nd(h);
+            // m.ndrez.push_back(h);
         }
     }
+    int eg;
     if(x==2||x==3){
-        m.egzrez=rand()%11;
+        m.egzGen();
     }
     else{
         cout<<"Irasykite egzamino rezultata"<<endl;
-        while(!(cin>>m.egzrez)||m.egzrez<0||m.egzrez>10){
+        while(!(cin>>eg)||eg<0||eg>10){
             try{
                 throw runtime_error("Klaidingai ivesti duomenys\n");
             }
@@ -624,7 +642,9 @@ void rankinis(sk &x, sk &moksk, talpa &mok){
         }
     }
 
-    calc(m);
+    m.egz(eg);
+
+    m.calc();
     
     cout<<"Jei norite prideti daugiau mokiniu spauskite 1, jei baigete, spauskite bet koki kita svaika skaiciu"<<endl;
     int a;
@@ -709,22 +729,22 @@ void input(){
         if(s==3) rankinis(x, moksk, mokD);
     }
 
-    cout<<setw(19)<<left<<"Vardas"<<setw(19)<<left<<"Pavarde"<<setw(19)<<left<<"Galutinis (Vid.)"<<setw(19)<<left<<"Galutinis (Med.)"<<endl;
-    cout<<"-------------------------------------------------------------------------"<<endl;
+    cout<<setw(25)<<left<<"Vardas"<<setw(25)<<left<<"Pavarde"<<setw(18)<<left<<"Galutinis (Vid.)"<<setw(18)<<left<<"Galutinis (Med.)"<<endl;
+    cout<<"------------------------------------------------------------------------------------"<<endl;
 
     if(s==1){
-        for(const auto& elem : mokV){
-            cout<<setw(19)<<left<<elem.vardas()<<setw(19)<<left<<elem.pavarde()<<setw(19)<<left<<setprecision(3)<<elem.galvid<<setw(19)<<left<<setprecision(3)<<elem.galmed<<endl;
+        for(auto& elem : mokV){
+            elem.spausdinti();
         }
     }
     else if(s==2){
-        for(const auto& elem : mokL){
-            cout<<setw(19)<<left<<elem.vard<<setw(19)<<left<<elem.pav<<setw(19)<<left<<setprecision(3)<<elem.galvid<<setw(19)<<left<<setprecision(3)<<elem.galmed<<endl;
+        for(auto& elem : mokL){
+            elem.spausdinti();
         }
     }
     else if(s==3){
-        for(const auto& elem : mokD){
-            cout<<setw(19)<<left<<elem.vard<<setw(19)<<left<<elem.pav<<setw(19)<<left<<setprecision(3)<<elem.galvid<<setw(19)<<left<<setprecision(3)<<elem.galmed<<endl;
+        for(auto& elem : mokD){
+            elem.spausdinti();
         }
     }
 
