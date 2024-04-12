@@ -91,8 +91,8 @@
 #### Klasė
 | Failas | Skaitymo trukmė | Rušiavimo trukmė | Skirtsymo trukmė |
 | :--- | ---- | ---- | ---- |
-| stud1000000 |  |  |  |
-| stud10000000 |  |  |  |
+| stud1000000 | 8152 | 2805 | 125 |
+| stud10000000 | 86862 | 37644 | 1424 |
 
 ## Optimizavimo "flag'ų" palyginimas (stud1000000)
 
@@ -101,9 +101,9 @@
 | Struct -O1 | 10118 | 466 KB |
 | Struct -O2 | 10166 | 466 KB |
 | Struct -O3 | 10388 | 466 KB |
-| Class -O1 |  |  |
-| Class -O2 |  |  |
-| Class -O3 |  |  |
+| Class -O1 | 12071 | 451 KB |
+| Class -O2 | 11781 | 451 KB |
+| Class -O3 | 11082 | 451 KB |
 
 ## Release'ų istorija
 
