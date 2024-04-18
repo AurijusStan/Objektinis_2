@@ -16,7 +16,7 @@ class duom{
         int egzrez_;
         double galvid_, galmed_;
     public:
-        duom() : galvid_(0) {}
+        duom() : galvid_(0), galmed_(0) {}
         ~duom() {}
         duom(istream &cin);
 
@@ -26,27 +26,27 @@ class duom{
 
         // move c
         duom(duom &&temp) noexcept 
-            : vard_(move(temp.vard_)), pav_(move(temp.pav_)), ndrez_(move(temp.ndrez_)), egzrez_(temp.egzrez_), galvid_(temp.galvid_), galmed_(temp.galmed_) {}
+            : vard_(move(temp.vard_)), pav_(move(temp.pav_)), ndrez_(move(temp.ndrez_)), egzrez_(move(temp.egzrez_)), galvid_(move(temp.galvid_)), galmed_(move(temp.galmed_)) {}
 
         // copy a
         duom& operator=(const duom &temp) {
-            vard_ = temp.vard_;
-            pav_ = temp.pav_;
-            ndrez_ = temp.ndrez_;
-            egzrez_ = temp.egzrez_;
-            galvid_ = temp.galvid_;
-            galmed_ = temp.galmed_;
+            vard_=temp.vard_;
+            pav_=temp.pav_;
+            ndrez_=temp.ndrez_;
+            egzrez_=temp.egzrez_;
+            galvid_=temp.galvid_;
+            galmed_=temp.galmed_;
             return *this;
         }
 
         // move a
         duom& operator=(duom&& temp) noexcept { // V. move assignment
-            vard_ = std::move(temp.vard_);
-            pav_ = std::move(temp.pav_);
-            ndrez_ = std::move(temp.ndrez_);
-            egzrez_ = temp.egzrez_;
-            galvid_ = temp.galvid_;
-            galmed_ = temp.galmed_;
+            vard_=move(temp.vard_);
+            pav_=move(temp.pav_);
+            ndrez_=move(temp.ndrez_);
+            egzrez_=move(temp.egzrez_);
+            galvid_=move(temp.galvid_);
+            galmed_=move(temp.galmed_);
             return *this;
         }
 
@@ -68,8 +68,8 @@ class duom{
         void ndGen();
         void egzGen();
 
-        // friend istream& operator>>(istream &cin);
-        // friend istream& operator<<(istream &cout);
+        friend istream& operator>>(istream &cin, duom &s);
+        friend ostream& operator<<(ostream &cout, const duom &s);
 
 };
 
@@ -108,5 +108,7 @@ template <typename sk, typename talpa>
 double rankinis(sk &, talpa &, sk &);
 
 void input();
+
+void testas();
 
 #endif

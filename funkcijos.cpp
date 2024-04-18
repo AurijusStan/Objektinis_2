@@ -27,6 +27,25 @@ bool sort4u(const duom &a, const duom &b){
     return(a.galmed()>b.galmed());
 }
 
+duom::duom(istream &cin){
+    cout<<"Amangas"<<endl;
+    skaitduom(100);
+    calc();
+    cout<<"Amangas"<<endl;
+}
+
+istream &operator>>(istream &cin, duom &s) {
+    cout<<"Amangas"<<endl;
+    s.skaitduom(100);
+    s.calc();
+    return cin;
+}
+
+ostream &operator<<(ostream &cout, duom &s) {
+    s.spausdinti();
+    return cout;
+}
+
 template <typename sk=int, typename talpa> 
 void rusiuoti(sk &x, sk &t, talpa &mok){
     if(t==1){
@@ -162,19 +181,24 @@ void strategija1(talpa &x, talpa &y, sk t, talpa &z){
 }
 
 void duom::skaitduom(int ndsk){
-    string vardas;
-
     cin>>vard_>>pav_;
 
     ndrez_.reserve(ndsk);
 
     for(int j=0; j<ndsk; j++){
         int a;
-        cin>>a;
+        if(!(cin>>a)){
+            egzrez_=ndrez_[j-1];
+            ndrez_.resize(j-1);
+            ndrez_.shrink_to_fit();
+            return;
+        }
         ndrez_.push_back(a);
     }
 
     cin>>egzrez_;
+
+    calc();
 }
 
 template <typename sk, typename talpa>
@@ -749,4 +773,41 @@ void input(){
     }
 
     return;
+}
+
+void testas(){
+    // string str="Benas Benaitis 4 7 10 6 8";
+    // istringstream cin(str);
+    // cout<<"Amangas"<<endl;
+    // duom t1(cin);
+    // cout<<"Amangas"<<endl;
+    duom t1;
+
+    t1.vardas("Benas");
+    t1.pavarde("Benaitis");
+    t1.nd(4);
+    t1.nd(7);
+    t1.nd(10);
+    t1.nd(6);
+    t1.egz(8);
+
+    t1.calc();
+
+    cout<<t1;
+
+    duom t2(t1);
+
+    cout<<t2;
+
+    duom t3(move(t2));
+
+    cout<<t2;
+    cout<<t3;
+
+    duom t4 = t1;
+    duom t5 = move(t1);
+
+    cout<<t4;
+    cout<<t5;
+    cout<<t1;
 }
