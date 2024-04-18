@@ -3,28 +3,28 @@
 using namespace std;
 
 bool sort1(const duom &a, const duom &b){
-    return(a.vard_<b.vard_);
+    return(a.vard()<b.vard());
 }
 bool sort2(const duom &a, const duom &b){
-    return(a.pav_<b.pav_);
+    return(a.pav()<b.pav());
 }
 bool sort3(const duom &a, const duom &b){
-    return(a.galvid_<b.galvid_);
+    return(a.galvid()<b.galvid());
 }
 bool sort4(const duom &a, const duom &b){
-    return(a.galmed_<b.galmed_);
+    return(a.galmed()<b.galmed());
 }
 bool sort1u(const duom &a, const duom &b){
-    return(a.vard_>b.vard_);
+    return(a.vard()>b.vard());
 }
 bool sort2u(const duom &a, const duom &b){
-    return(a.pav_>b.pav_);
+    return(a.pav()>b.pav());
 }
 bool sort3u(const duom &a, const duom &b){
-    return(a.galvid_>b.galvid_);
+    return(a.galvid()>b.galvid());
 }
 bool sort4u(const duom &a, const duom &b){
-    return(a.galmed_>b.galmed_);
+    return(a.galmed()>b.galmed());
 }
 
 template <typename sk=int, typename talpa> 
@@ -88,10 +88,10 @@ void duom::calc(){
 }
 
 bool pagalVid(const duom &x, const double d){ 
-    return x.galvid_<d; 
+    return x.galvid()<d; 
 }
 bool pagalMed(const duom &x, const double d){ 
-    return x.galmed_<d; 
+    return x.galmed()<d; 
 }
 
 template <typename talpa, typename sk> 

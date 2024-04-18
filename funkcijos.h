@@ -36,18 +36,18 @@ class duom{
         void vardoGen();
         void ndGen();
         void egzGen();
-
-        friend bool sort1(const duom &, const duom &);
-        friend bool sort2(const duom &, const duom &);
-        friend bool sort3(const duom &, const duom &);
-        friend bool sort4(const duom &, const duom &);
-        friend bool sort1u(const duom &, const duom &);
-        friend bool sort2u(const duom &, const duom &);
-        friend bool sort3u(const duom &, const duom &);
-        friend bool sort4u(const duom &, const duom &);
-        friend bool pagalVid(const duom &x, const double d);
-        friend bool pagalMed(const duom &x, const double d);
 };
+
+bool sort1(const duom &, const duom &);
+bool sort2(const duom &, const duom &);
+bool sort3(const duom &, const duom &);
+bool sort4(const duom &, const duom &);
+bool sort1u(const duom &, const duom &);
+bool sort2u(const duom &, const duom &);
+bool sort3u(const duom &, const duom &);
+bool sort4u(const duom &, const duom &);
+bool pagalVid(const duom &x, const double d);
+bool pagalMed(const duom &x, const double d);
 
 template <typename sk=int, typename talpa>
 void rusiuoti(sk &, sk &, talpa &);
