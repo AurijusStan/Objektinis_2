@@ -19,6 +19,26 @@ class duom{
         duom() : galvid_(0) {}
         ~duom() {}
         duom(istream &cin);
+
+        // copy c
+        duom(const duom &temp)
+            : vard_(temp.vard_), pav_(temp.pav_), ndrez_(temp.ndrez_), egzrez_(temp.egzrez_), galvid_(temp.galvid_), galmed_(temp.galmed_) {}
+
+        // move c
+        duom(duom &&temp) noexcept 
+            : vard_(move(temp.vard_)), pav_(move(temp.pav_)), ndrez_(move(temp.ndrez_)), egzrez_(temp.egzrez_), galvid_(temp.galvid_), galmed_(temp.galmed_) {}
+
+        // copy a
+        duom& operator=(const duom &temp) {
+            vard_ = temp.vard_;
+            pav_ = temp.pav_;
+            ndrez_ = temp.ndrez_;
+            egzrez_ = temp.egzrez_;
+            galvid_ = temp.galvid_;
+            galmed_ = temp.galmed_;
+            return *this;
+        }
+
         inline string vard() const { return vard_; }
         inline string pav() const { return pav_; }
         inline double galvid() const { return galvid_; }
@@ -36,6 +56,10 @@ class duom{
         void vardoGen();
         void ndGen();
         void egzGen();
+
+        // friend istream& operator>>(istream &cin);
+        // friend istream& operator<<(istream &cout);
+
 };
 
 bool sort1(const duom &, const duom &);
