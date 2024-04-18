@@ -39,6 +39,17 @@ class duom{
             return *this;
         }
 
+        // move a
+        duom& operator=(duom&& temp) noexcept { // V. move assignment
+            vard_ = std::move(temp.vard_);
+            pav_ = std::move(temp.pav_);
+            ndrez_ = std::move(temp.ndrez_);
+            egzrez_ = temp.egzrez_;
+            galvid_ = temp.galvid_;
+            galmed_ = temp.galmed_;
+            return *this;
+        }
+
         inline string vard() const { return vard_; }
         inline string pav() const { return pav_; }
         inline double galvid() const { return galvid_; }
