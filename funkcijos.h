@@ -8,7 +8,19 @@ using namespace std::chrono;
 using std::setw;
 using std::left;
 
-class duom{
+class zmogus{
+    private:
+        string vard_;
+        string pav_;
+    public:  
+        virtual void vardas(const string &va) = 0;
+        virtual void pavarde(const string &pa) = 0;
+
+        virtual string vard() const = 0;
+        virtual string pav() const = 0;
+};
+
+class duom : public zmogus{
     private:
         string vard_;
         string pav_;
