@@ -32,15 +32,19 @@ class zmogus{
 
         // copy a
         zmogus& operator=(const zmogus &temp) {
-            vard_=temp.vard_;
-            pav_=temp.pav_;
+            if(this!=&temp){
+                vard_=temp.vard_;
+                pav_=temp.pav_;
+            }
             return *this;
         }
 
         // move a
         zmogus& operator=(zmogus &&temp) noexcept { 
-            vard_=move(temp.vard_);
-            pav_=move(temp.pav_);
+            if(this!=&temp){
+                vard_=move(temp.vard_);
+                pav_=move(temp.pav_);
+            }
             return *this;
         }
 };
@@ -65,21 +69,25 @@ class duom : public zmogus{
 
         // copy a
         duom& operator=(const duom &temp) {
-            zmogus::operator=(temp);
-            ndrez_=temp.ndrez_;
-            egzrez_=temp.egzrez_;
-            galvid_=temp.galvid_;
-            galmed_=temp.galmed_;
+            if(this!=&temp){
+                zmogus::operator=(temp);
+                ndrez_=temp.ndrez_;
+                egzrez_=temp.egzrez_;
+                galvid_=temp.galvid_;
+                galmed_=temp.galmed_;
+            }
             return *this;
         }
 
         // move a
         duom& operator=(duom &&temp) noexcept {
-            zmogus::operator=(move(temp));
-            ndrez_=move(temp.ndrez_);
-            egzrez_=move(temp.egzrez_);
-            galvid_=move(temp.galvid_);
-            galmed_=move(temp.galmed_);
+            if(this!=&temp){
+                zmogus::operator=(move(temp));
+                ndrez_=move(temp.ndrez_);
+                egzrez_=move(temp.egzrez_);
+                galvid_=move(temp.galvid_);
+                galmed_=move(temp.galmed_);
+            }
             return *this;
         }
 
