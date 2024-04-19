@@ -217,7 +217,7 @@ void skaitymas(sk &moksk, talpa &mok){
 
         mok.push_back(m);
         
-        cin.ignore(255, '\n');
+        // cin.ignore(255, '\n');
     }
 }
 

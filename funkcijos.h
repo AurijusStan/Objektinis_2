@@ -9,7 +9,7 @@ using std::setw;
 using std::left;
 
 class zmogus{
-    private:
+    protected:
         string vard_;
         string pav_;
     public:  
@@ -22,8 +22,6 @@ class zmogus{
 
 class duom : public zmogus{
     private:
-        string vard_;
-        string pav_;
         vector<int> ndrez_;
         int egzrez_;
         double galvid_, galmed_;
@@ -34,16 +32,15 @@ class duom : public zmogus{
 
         // copy c
         duom(const duom &temp)
-            : vard_(temp.vard_), pav_(temp.pav_), ndrez_(temp.ndrez_), egzrez_(temp.egzrez_), galvid_(temp.galvid_), galmed_(temp.galmed_) {}
+            : zmogus(temp), ndrez_(temp.ndrez_), egzrez_(temp.egzrez_), galvid_(temp.galvid_), galmed_(temp.galmed_) {}
 
         // move c
         duom(duom &&temp) noexcept 
-            : vard_(move(temp.vard_)), pav_(move(temp.pav_)), ndrez_(move(temp.ndrez_)), egzrez_(move(temp.egzrez_)), galvid_(move(temp.galvid_)), galmed_(move(temp.galmed_)) {}
+            : zmogus(move(temp)), ndrez_(move(temp.ndrez_)), egzrez_(move(temp.egzrez_)), galvid_(move(temp.galvid_)), galmed_(move(temp.galmed_)) {}
 
         // copy a
         duom& operator=(const duom &temp) {
-            vard_=temp.vard_;
-            pav_=temp.pav_;
+            zmogus::operator=(temp);
             ndrez_=temp.ndrez_;
             egzrez_=temp.egzrez_;
             galvid_=temp.galvid_;
@@ -53,8 +50,7 @@ class duom : public zmogus{
 
         // move a
         duom& operator=(duom&& temp) noexcept { // V. move assignment
-            vard_=move(temp.vard_);
-            pav_=move(temp.pav_);
+            zmogus::operator=(move(temp));
             ndrez_=move(temp.ndrez_);
             egzrez_=move(temp.egzrez_);
             galvid_=move(temp.galvid_);
@@ -62,13 +58,13 @@ class duom : public zmogus{
             return *this;
         }
 
-        inline string vard() const { return vard_; }
-        inline string pav() const { return pav_; }
+        inline string vard() const override { return this->vard_; }
+        inline string pav() const override { return this->pav_; }
         inline double galvid() const { return galvid_; }
         inline double galmed() const { return galmed_; }
 
-        void vardas(const string &va) { vard_=va; }
-        void pavarde(const string &pa) { pav_=pa; }
+        void vardas(const string &va) override { this->vard_=va; }
+        void pavarde(const string &pa) override { this->pav_=pa; }
         void nd(int nd) { ndrez_.push_back(nd); }
         void egz(int egz) { egzrez_=egz; }
         void calc();
