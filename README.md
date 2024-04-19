@@ -116,6 +116,9 @@
 - v0.3: programa paskirstyta per kelis failus, pridėtas išimčių valdymas.
 - v0.4: programoje galima generuoti naujus failus, duomenys atspausdinami į 2 atskirus failus, atliekama laiko analizė.
 - v1.0: atliktas programos testavimas su skirtingais konteineriais, naudotos skirtingos mokinių skirstymo strategijos, padarytos jų efektyvumo strategijos.
+- v1.1: programa perdaryta naudojant custom klases o ne struktūras.
+- v1.2: pritaikyta rule of five, sukurti move ir copy operatoriai
+- v1.5: klasė padalinta į dvi dalis, viena iš kurių abstrakti bazinė.
 
 ## Tyrimas
 
