@@ -18,6 +18,31 @@ class zmogus{
 
         virtual string vard() const = 0;
         virtual string pav() const = 0;
+
+        zmogus() {}
+        ~zmogus() {}
+
+        // copy c
+        zmogus(const zmogus &temp)
+            : vard_(temp.vard_), pav_(temp.pav_) {}
+
+        // move c
+        zmogus(zmogus &&temp) noexcept 
+            : vard_(move(temp.vard_)), pav_(move(temp.pav_)) {}
+
+        // copy a
+        zmogus& operator=(const zmogus &temp) {
+            vard_=temp.vard_;
+            pav_=temp.pav_;
+            return *this;
+        }
+
+        // move a
+        zmogus& operator=(zmogus &&temp) noexcept { 
+            vard_=move(temp.vard_);
+            pav_=move(temp.pav_);
+            return *this;
+        }
 };
 
 class duom : public zmogus{
@@ -49,7 +74,7 @@ class duom : public zmogus{
         }
 
         // move a
-        duom& operator=(duom&& temp) noexcept { // V. move assignment
+        duom& operator=(duom &&temp) noexcept {
             zmogus::operator=(move(temp));
             ndrez_=move(temp.ndrez_);
             egzrez_=move(temp.egzrez_);
