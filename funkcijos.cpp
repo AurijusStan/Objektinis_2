@@ -27,17 +27,33 @@ bool sort4u(const duom &a, const duom &b){
     return(a.galmed()>b.galmed());
 }
 
-duom::duom(istream &cin){
-    cout<<"Amangas"<<endl;
-    skaitduom(100);
+duom::duom(istream &cin, int ndsk){
+    cin>>vard_>>pav_;
+
+    ndrez_.reserve(ndsk);
+
+    for(int j=0; j<ndsk; j++){
+        int a;
+        if(!(cin>>a)){
+            egzrez_=ndrez_[j-1];
+            ndrez_.resize(j-1);
+            ndrez_.shrink_to_fit();
+            return;
+        }
+        ndrez_.push_back(a);
+    }
+
+    cin>>egzrez_;
+
     calc();
-    cout<<"Amangas"<<endl;
 }
 
 istream &operator>>(istream &cin, duom &s) {
-    cout<<"Amangas"<<endl;
-    s.skaitduom(100);
-    s.calc();
+    string line;
+    getline(cin, line);
+    istringstream a(line);
+    duom temp(a, 100);
+    s = temp;
     return cin;
 }
 
@@ -180,26 +196,26 @@ void strategija1(talpa &x, talpa &y, sk t, talpa &z){
     }
 }
 
-void duom::skaitduom(int ndsk){
-    cin>>vard_>>pav_;
+// void duom::skaitduom(int ndsk){
+//     cin>>vard_>>pav_;
 
-    ndrez_.reserve(ndsk);
+//     ndrez_.reserve(ndsk);
 
-    for(int j=0; j<ndsk; j++){
-        int a;
-        if(!(cin>>a)){
-            egzrez_=ndrez_[j-1];
-            ndrez_.resize(j-1);
-            ndrez_.shrink_to_fit();
-            return;
-        }
-        ndrez_.push_back(a);
-    }
+//     for(int j=0; j<ndsk; j++){
+//         int a;
+//         if(!(cin>>a)){
+//             egzrez_=ndrez_[j-1];
+//             ndrez_.resize(j-1);
+//             ndrez_.shrink_to_fit();
+//             return;
+//         }
+//         ndrez_.push_back(a);
+//     }
 
-    cin>>egzrez_;
+//     cin>>egzrez_;
 
-    calc();
-}
+//     calc();
+// }
 
 template <typename sk, typename talpa>
 void skaitymas(sk &moksk, sk &ndsk, talpa &mok){
@@ -224,11 +240,7 @@ void skaitymas(sk &moksk, sk &ndsk, talpa &mok){
     }
 
     for(int i=0; i<moksk; i++){
-        duom m;
-
-        m.skaitduom(ndsk);
-
-        m.calc();
+        duom m(cin, ndsk);
 
         mok.push_back(m);
         
@@ -645,7 +657,6 @@ void rankinis(sk &x, sk &moksk, talpa &mok){
                 break;
             }
             m.nd(h);
-            // m.ndrez.push_back(h);
         }
     }
     int eg;
@@ -776,38 +787,41 @@ void input(){
 }
 
 void testas(){
-    // string str="Benas Benaitis 4 7 10 6 8";
-    // istringstream cin(str);
-    // cout<<"Amangas"<<endl;
-    // duom t1(cin);
-    // cout<<"Amangas"<<endl;
     duom t1;
 
-    t1.vardas("Benas");
-    t1.pavarde("Benaitis");
-    t1.nd(4);
-    t1.nd(7);
-    t1.nd(10);
-    t1.nd(6);
-    t1.egz(8);
+    // input operation test
+    istringstream is("Benas Benaitis 4 7 10 6 8");
 
-    t1.calc();
+    is>>t1;
 
+    // output operation test
     cout<<t1;
 
+    // copy constructor test
     duom t2(t1);
 
     cout<<t2;
 
+    // move constructor test
     duom t3(move(t2));
 
     cout<<t2;
     cout<<t3;
 
-    duom t4 = t1;
-    duom t5 = move(t1);
+    duom t10;
+
+    istringstream iss("Lebronas Dzeimsas 10 10 10 10 10 10 7 10 9");
+
+    iss>>t10;
+
+    // copy assignment test
+    duom t4=t10;
 
     cout<<t4;
+
+    // move assignment test
+    duom t5=move(t10);
+    
     cout<<t5;
-    cout<<t1;
+    cout<<t10;
 }

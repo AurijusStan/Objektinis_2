@@ -18,7 +18,7 @@ class duom{
     public:
         duom() : galvid_(0), galmed_(0) {}
         ~duom() {}
-        duom(istream &cin);
+        duom(istream &cin, int);
 
         // copy c
         duom(const duom &temp)
