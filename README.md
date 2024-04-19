@@ -10,6 +10,9 @@
   - Galima skaityti duomenis iš tam tikru formatu pateiktų teksto failų.
   - "Pažengusių" ir "Žlugusių" mokinių išvedimas atskiruose failuose.
 
+## Perdengti operatoriai
+  Jei naudojama "cin >> klasė" arba "cout << klasė>" atspausdinama arba įrašoma atitinkama klasės informacija visur pasitaikanti šioje užduotyje. Jei rašoma kažkas kitas, o ne klasė, jie veikia kaip įprastai. Pakeisti kur spausdinama galima arba keičiant freopen parametrus arba kode pritaikant ifstream ir ofstream, kas leistų naudoti skirtingus raktažodžius spausdinimui į skirtingas vietas.
+
 ## Naudojimosi instrukcijos
   - Įjungti programą.
   - Sekti terminale matomus žingsnius.

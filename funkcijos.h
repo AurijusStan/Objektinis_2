@@ -18,7 +18,7 @@ class duom{
     public:
         duom() : galvid_(0), galmed_(0) {}
         ~duom() {}
-        duom(istream &cin, int);
+        duom(istream &cin);
 
         // copy c
         duom(const duom &temp)
@@ -62,7 +62,7 @@ class duom{
         void calc();
 
         void vpskait();
-        void skaitduom(int);
+        void skaitduom();
         void spausdinti();
         void vardoGen();
         void ndGen();
@@ -97,7 +97,7 @@ template <typename talpa, typename sk>
 void strategija1(talpa &, talpa &, sk, talpa &);
 
 template <typename sk, typename talpa>
-void skaitymas(sk &, sk &, talpa &);
+void skaitymas(sk &, talpa &);
 
 template <typename talpa, typename sk=int>
 void isfailo(talpa &, sk &);

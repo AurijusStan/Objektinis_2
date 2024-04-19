@@ -27,23 +27,24 @@ bool sort4u(const duom &a, const duom &b){
     return(a.galmed()>b.galmed());
 }
 
-duom::duom(istream &cin, int ndsk){
+duom::duom(istream &cin){
     cin>>vard_>>pav_;
 
-    ndrez_.reserve(ndsk);
+    // ndrez_.reserve(ndsk);
 
-    for(int j=0; j<ndsk; j++){
+    int j=0;
+
+    while(true){
         int a;
         if(!(cin>>a)){
             egzrez_=ndrez_[j-1];
             ndrez_.resize(j-1);
             ndrez_.shrink_to_fit();
-            return;
+            break;
         }
         ndrez_.push_back(a);
+        j++;
     }
-
-    cin>>egzrez_;
 
     calc();
 }
@@ -52,7 +53,7 @@ istream &operator>>(istream &cin, duom &s) {
     string line;
     getline(cin, line);
     istringstream a(line);
-    duom temp(a, 100);
+    duom temp(a);
     s = temp;
     return cin;
 }
@@ -196,51 +197,23 @@ void strategija1(talpa &x, talpa &y, sk t, talpa &z){
     }
 }
 
-// void duom::skaitduom(int ndsk){
-//     cin>>vard_>>pav_;
-
-//     ndrez_.reserve(ndsk);
-
-//     for(int j=0; j<ndsk; j++){
-//         int a;
-//         if(!(cin>>a)){
-//             egzrez_=ndrez_[j-1];
-//             ndrez_.resize(j-1);
-//             ndrez_.shrink_to_fit();
-//             return;
-//         }
-//         ndrez_.push_back(a);
-//     }
-
-//     cin>>egzrez_;
-
-//     calc();
-// }
-
 template <typename sk, typename talpa>
-void skaitymas(sk &moksk, sk &ndsk, talpa &mok){
+void skaitymas(sk &moksk, talpa &mok){
     string temp;
 
     cin>>temp;
     cin>>temp;
-
-    while(true){
-        cin>>temp;
-        if(temp.back()>='0'&&temp.back()<='9'){
-            ndsk++;
-        }
-        else{
-            getline(cin, temp);
-            break;
-        }
-    }    
+    
+    getline(cin, temp);  
 
     if constexpr (is_same<talpa, vector<duom>>::value){
         mok.reserve(moksk);
     }
 
     for(int i=0; i<moksk; i++){
-        duom m(cin, ndsk);
+        duom m;
+
+        cin>>m;
 
         mok.push_back(m);
         
@@ -361,7 +334,7 @@ void isfailo(talpa &mok, sk &s){
 
     auto start = high_resolution_clock::now();
 
-    skaitymas(moksk, ndsk, mok);
+    skaitymas(moksk, mok);
 
     auto stop = high_resolution_clock::now();
     auto duration = duration_cast<milliseconds>(stop - start);
@@ -425,7 +398,7 @@ void isfailo(talpa &mok, sk &s){
 
 
         for (auto& elem : pazenge) {
-            elem.spausdinti();
+            cout<<elem;
         }
 
         stop = high_resolution_clock::now();
@@ -453,12 +426,12 @@ void isfailo(talpa &mok, sk &s){
 
         if(str!=1){
             for (auto& elem : mok) {
-                elem.spausdinti();
+                cout<<elem;
             }
         }
         else{
             for (auto& elem : zluge) {
-                elem.spausdinti();
+                cout<<elem;
             }
         }
 
@@ -769,17 +742,17 @@ void input(){
 
     if(s==1){
         for(auto& elem : mokV){
-            elem.spausdinti();
+            cout<<elem;
         }
     }
     else if(s==2){
         for(auto& elem : mokL){
-            elem.spausdinti();
+            cout<<elem;
         }
     }
     else if(s==3){
         for(auto& elem : mokD){
-            elem.spausdinti();
+            cout<<elem;
         }
     }
 
@@ -790,7 +763,7 @@ void testas(){
     duom t1;
 
     // input operation test
-    istringstream is("Benas Benaitis 4 7 10 6 8");
+    istringstream is("Vardas1                  Pavarde1                  5       9       4       5       10      8       7       10      10");
 
     is>>t1;
 
