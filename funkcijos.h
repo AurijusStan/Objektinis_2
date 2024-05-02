@@ -65,7 +65,11 @@ class duom : public zmogus{
 
         // move c
         duom(duom &&temp) noexcept 
-            : zmogus(move(temp)), ndrez_(move(temp.ndrez_)), egzrez_(move(temp.egzrez_)), galvid_(move(temp.galvid_)), galmed_(move(temp.galmed_)) {}
+            : zmogus(move(temp)), ndrez_(move(temp.ndrez_)), egzrez_(move(temp.egzrez_)), galvid_(move(temp.galvid_)), galmed_(move(temp.galmed_)) {
+                temp.egzrez_=NULL;
+                temp.galvid_=NULL;
+                temp.galmed_=NULL;
+            }
 
         // copy a
         duom& operator=(const duom &temp) {
@@ -85,8 +89,11 @@ class duom : public zmogus{
                 zmogus::operator=(move(temp));
                 ndrez_=move(temp.ndrez_);
                 egzrez_=move(temp.egzrez_);
+                temp.egzrez_=NULL;
                 galvid_=move(temp.galvid_);
+                temp.galvid_=NULL;
                 galmed_=move(temp.galmed_);
+                temp.galmed_=NULL;
             }
             return *this;
         }
