@@ -134,5 +134,6 @@ Buvo atliktas mokinių dalijimo į 2 konteinerius skirtingų strategijų testavi
 
 1. Atsisiųskite programos kodą iš repozitorijos.
 2. Terminale pasiekite atsisiuntimo aplanką.
-3. terminale parašykite "make" (pirmą kartą, kai leidžiate programą).
+3. Terminale parašykite "make" (pirmą kartą, kai leidžiate programą).
+3.1 Jei norite patikrinti testus, naudokite "make test".
 4. Paleiskite programą terminale įvesdami .\prog.exe (Windows) arba .\prog (Linux)
