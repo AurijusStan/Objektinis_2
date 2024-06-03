@@ -206,10 +206,6 @@ void skaitymas(sk &moksk, talpa &mok){
     
     getline(cin, temp);  
 
-    if constexpr (is_same<talpa, vector<duom>>::value){
-        mok.reserve(moksk);
-    }
-
     for(int i=0; i<moksk; i++){
         duom m;
 
@@ -217,7 +213,7 @@ void skaitymas(sk &moksk, talpa &mok){
 
         mok.push_back(m);
         
-        cin.ignore(255, '\n');
+        // cin.ignore(255, '\n');
     }
 }
 

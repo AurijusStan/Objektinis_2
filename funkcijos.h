@@ -25,8 +25,13 @@ class duom{
             : vard_(temp.vard_), pav_(temp.pav_), ndrez_(temp.ndrez_), egzrez_(temp.egzrez_), galvid_(temp.galvid_), galmed_(temp.galmed_) {}
 
         // move c
-        duom(duom &&temp) noexcept 
-            : vard_(move(temp.vard_)), pav_(move(temp.pav_)), ndrez_(move(temp.ndrez_)), egzrez_(move(temp.egzrez_)), galvid_(move(temp.galvid_)), galmed_(move(temp.galmed_)) {}
+        duom(duom&& temp) noexcept 
+            : vard_(std::move(temp.vard_)), 
+            pav_(std::move(temp.pav_)), 
+            ndrez_(std::move(temp.ndrez_)), 
+            egzrez_(temp.egzrez_), 
+            galvid_(temp.galvid_), 
+            galmed_(temp.galmed_) {}
 
         // copy a
         duom& operator=(const duom &temp) {
@@ -40,15 +45,17 @@ class duom{
         }
 
         // move a
-        duom& operator=(duom&& temp) noexcept { // V. move assignment
-            vard_=move(temp.vard_);
-            pav_=move(temp.pav_);
-            ndrez_=move(temp.ndrez_);
-            egzrez_=move(temp.egzrez_);
-            galvid_=move(temp.galvid_);
-            galmed_=move(temp.galmed_);
+        duom& operator=(duom&& temp) noexcept {
+            vard_ = std::move(temp.vard_);
+            pav_ = std::move(temp.pav_);
+            ndrez_ = std::move(temp.ndrez_);
+            egzrez_ = temp.egzrez_;
+            galvid_ = temp.galvid_;
+            galmed_ = temp.galmed_;
+
             return *this;
         }
+
 
         inline string vard() const { return vard_; }
         inline string pav() const { return pav_; }
