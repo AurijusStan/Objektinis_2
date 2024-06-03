@@ -1,12 +1,11 @@
 main: prog
 
 prog: funkcijos.o Vector.o
-	g++ -o prog Vector.o funkcijos.o -O3
+	g++ -o prog Main.o funkcijos.o -O3
 funkcijos.o: funkcijos.cpp
 	g++ -c funkcijos.cpp -o funkcijos.o -O3
-Vector.o: Vector.cpp
-	g++ -c Vector.cpp -o Vector.o -O3
-
+Vector.o: Main.cpp
+	g++ -c Main.cpp -o Main.o -O3
 
 test: test_prog
 	./test_prog
