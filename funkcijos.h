@@ -16,7 +16,7 @@ class duom{
         int egzrez_;
         double galvid_, galmed_;
     public:
-        duom() : galvid_(0), galmed_(0) {}
+        duom() : egzrez_(0), galvid_(0), galmed_(0) {}
         ~duom() {}
         duom(istream &cin);
 
@@ -31,7 +31,11 @@ class duom{
             ndrez_(std::move(temp.ndrez_)), 
             egzrez_(temp.egzrez_), 
             galvid_(temp.galvid_), 
-            galmed_(temp.galmed_) {}
+            galmed_(temp.galmed_) {
+                temp.egzrez_=0;
+                temp.galvid_=0.0;
+                temp.galmed_=0.0;
+            }
 
         // copy a
         duom& operator=(const duom &temp) {
@@ -49,9 +53,15 @@ class duom{
             vard_ = std::move(temp.vard_);
             pav_ = std::move(temp.pav_);
             ndrez_ = std::move(temp.ndrez_);
+            temp.vard_.clear();
+            temp.pav_.clear();
+            temp.ndrez_.clear();
             egzrez_ = temp.egzrez_;
+            temp.egzrez_=0;
             galvid_ = temp.galvid_;
+            temp.galvid_=0.0;
             galmed_ = temp.galmed_;
+            temp.galmed_=0.0;
 
             return *this;
         }
